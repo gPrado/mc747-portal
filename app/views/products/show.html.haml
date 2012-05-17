@@ -1,0 +1,20 @@
+.products
+  .product
+    .name
+      = @product.nome
+    .brand-name
+      = link_to @product.marca_nome, brand_products_path(@product.marca_id)
+    .spec
+      = simple_format @product.especificacao
+      %br
+      = "Peso: #{@product.peso} Kg"
+      %br
+      = "Comprimento: #{@product.comprimento} cm"
+      %br
+      = "Dimensões: #{@product.largura} cm x #{@product.altura} cm"
+
+    .category-name
+      Veja mais produtos da categoria
+      = link_to @product.categoria_nome, category_products_path(@product.categoria_id)
+
+    = button_to('Comprar', { :controller => 'purchases', :action => 'add_product', :id => @product.id }, :method => :put, :disable_with => 'Espere...')

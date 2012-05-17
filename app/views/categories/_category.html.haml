@@ -1,0 +1,8 @@
+%ul.category
+  -# level.times do
+    -# \.
+  %li
+    = link_to category.nome, category_products_path(category.id)
+  
+  - unless category.filhos.empty?
+    = render :partial => 'categories/category', :collection => category.filhos, :locals =>{:level => level + 1}

@@ -1,0 +1,5 @@
+.purchases
+  Compra realizada em
+  = @purchase.updated_at.strftime("%d %b %Y")
+  .items
+    = render :partial => 'purchases/product', :collection => @purchase.products, :spacer_template => 'layouts/separator'

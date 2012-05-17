@@ -1,0 +1,6 @@
+.products
+  .title
+    = @title
+  .items
+    = render :partial => 'products/product', :collection => @products, :spacer_template => 'layouts/separator',
+             :locals => { :hide_category => @hide_category, :hide_brand => @hide_brand }

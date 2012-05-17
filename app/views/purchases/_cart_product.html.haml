@@ -1,0 +1,8 @@
+.cart_product
+  .name
+    = link_to cart_product[:product].nome, product_path(cart_product[:product].id)
+  .amount
+    = form_tag update_product_purchases_path( :id => cart_product[:product].id ), {:method => :put} do
+      = number_field_tag :amount, cart_product[:amount], :in => 1...100 
+      = button_tag('Atualizar', :disable_with => 'Espere...')
+    = button_to('Remover', { :controller => 'purchases', :action => 'delete_product', :id => cart_product[:product].id }, :method => :delete, :disable_with => 'Espere...', :confirm => "Tem certeza?")

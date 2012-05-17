@@ -1,0 +1,5 @@
+.purchases
+  .title
+    Minhas Compras
+  .items
+    = render :partial => 'purchases/purchase', :collection => @purchases, :spacer_template => 'layouts/separator'

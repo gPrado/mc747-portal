@@ -1,0 +1,9 @@
+.login
+  = form_tag login_path do
+    .cpf
+      CPF
+      = text_field_tag :cpf
+    .passwd
+      Senha
+      = password_field_tag :passwd
+    = button_tag "Login"

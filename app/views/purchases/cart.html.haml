@@ -1,0 +1,9 @@
+.purchases
+  .cart
+    .title
+      Meu carrinho
+  
+    .products
+      = render :partial => 'cart_product', :collection => @cart_products, :spacer_template => 'layouts/separator'  
+  .finish
+    = button_to('Finalizar compra', purchases_path, :disable_with => 'Espere...', :confirm => "Todos os dados estão corretos ?")

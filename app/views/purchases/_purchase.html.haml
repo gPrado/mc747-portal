@@ -1,0 +1,5 @@
+.purchase
+  %span.id
+    = link_to purchase.id, purchase_path(purchase.id)
+  %span.date
+    = purchase.updated_at.strftime("%d %b %Y")
