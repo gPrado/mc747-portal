@@ -1,6 +1,7 @@
 class Purchase < ActiveRecord::Base
   
-  attr_accessible :id, :user_id, :completed
+  attr_accessible :id, :user_id, :completed,
+                  :cep, :logradouro, :bairro, :localidade, :uf, :complemento, :numero
   
   def user
     @user ||= User.find(user_id)
@@ -35,6 +36,26 @@ class Purchase < ActiveRecord::Base
     pps = ProductPurchase.find_all_by_purchase_id(id)
     pps.empty? and return false
     update_attribute :completed, true
+  end
+
+  def update_address(address)
+    update_attributes!(:cep         => address.cep,
+                       :logradouro  => address.logradouro,
+                       :bairro      => address.bairro,
+                       :localidade  => address.localidade,
+                       :uf          => address.uf,
+                       :numero      => address.numero,
+                       :complemento => address.complemento)
+  end
+
+  def address
+    Address.new(:cep         => cep,
+                :logradouro  => logradouro,
+                :bairro      => bairro,
+                :localidade  => localidade,
+                :uf          => uf,
+                :numero      => numero,
+                :complemento => complemento)
   end
 
   class << self

@@ -12,8 +12,16 @@ class AddressFactory < SoapBase
         }
       }
     end
-    
-    response[:verify_address_response][:return][:valid]
+    errors = response[:verify_address_response][:return][:errors][:item]
+    if errors 
+      if errors.instance_of?(Array)
+        errors.map{ |item| item[:description] }.join(", ")
+      else
+        errors[:description]
+      end
+    else
+      ""
+    end
   end
   
   def search_address(address)
@@ -55,7 +63,8 @@ class AddressFactory < SoapBase
     private
     
     def default_wsdl
-      "http://padovan.org:3000/address_services/wsdl"
+      "http://localhost:8888/address_services/wsdl"
+      #"http://padovan.org:3000/address_services/wsdl"
     end
   
   end

@@ -6,4 +6,4 @@
     .products
       = render :partial => 'cart_product', :collection => @cart_products, :spacer_template => 'layouts/separator'  
   .finish
-    = button_to('Finalizar compra', purchases_path, :disable_with => 'Espere...', :confirm => "Todos os dados estão corretos ?")
+    = button_to('Ir para entrega', edit_purchase_address_path(@purchase), :method => :get, :disable_with => 'Espere...')

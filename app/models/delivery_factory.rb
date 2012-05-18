@@ -1,0 +1,2 @@
+class DeliveryFactory < SoapBase
+end

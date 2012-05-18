@@ -26,10 +26,12 @@ class SoapBase
     end
     
     def wsdl
-      @@wsdl ||= default_wsdl
+      #TODO @@wsdl = default_wsdl doesn't work
+      default_wsdl
     end
     
     def configure(wsdl)
+      #TODO
       @@wsdl = wsdl
     end  
     

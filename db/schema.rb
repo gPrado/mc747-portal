@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120517040817) do
+ActiveRecord::Schema.define(:version => 20120518031833) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",              :default => "", :null => false
@@ -35,10 +35,17 @@ ActiveRecord::Schema.define(:version => 20120517040817) do
   add_index "product_purchases", ["purchase_id"], :name => "index_product_purchases_on_purchase_id"
 
   create_table "purchases", :force => true do |t|
-    t.string   "user_id",                       :null => false
-    t.boolean  "completed",  :default => false, :null => false
-    t.datetime "created_at",                    :null => false
-    t.datetime "updated_at",                    :null => false
+    t.string   "user_id",                              :null => false
+    t.boolean  "completed",   :default => false,       :null => false
+    t.datetime "created_at",                           :null => false
+    t.datetime "updated_at",                           :null => false
+    t.string   "cep",         :default => "13083-852", :null => false
+    t.string   "logradouro"
+    t.string   "bairro"
+    t.string   "localidade"
+    t.string   "uf"
+    t.string   "complemento"
+    t.string   "numero",      :default => "34",        :null => false
   end
 
   add_index "purchases", ["user_id"], :name => "index_purchases_on_user_id"

@@ -4,7 +4,7 @@ class PurchasesController < ApplicationController
   before_filter :authenticate_user!
   
   def index
-    @purchases = Purchase.order('updated_at DESC').find_all_by_user_id(@user_id)
+    @purchases = Purchase.where(:completed => true).order('updated_at DESC').find_all_by_user_id(@user_id)
   end
   
   def show

@@ -1,5 +1,16 @@
 .purchases
-  Compra realizada em
-  = @purchase.updated_at.strftime("%d %b %Y")
+  - if @purchase.completed
+    Compra realizada em
+    = @purchase.updated_at.strftime("%d %b %Y")
   .items
     = render :partial => 'purchases/product', :collection => @purchase.products, :spacer_template => 'layouts/separator'
+  .address
+    Endereço de entrega
+    %br
+    = "#{@purchase.logradouro}, #{@purchase.numero} "
+    = "#{@purchase.complemento} " unless @purchase.complemento.blank?
+    = "- #{@purchase.bairro} - #{@purchase.localidade} / #{@purchase.uf} - #{@purchase.cep}"
+
+  - unless @purchase.completed
+    = form_tag purchases_path do
+      = button_tag "Finalizar compra"

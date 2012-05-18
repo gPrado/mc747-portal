@@ -12,6 +12,12 @@ Portal::Application.routes.draw do
   resources :products, :only => [:show]
 
   resources :purchases, :only => [:index, :show, :create] do
+    resource :address, :only => [:edit, :update], :controller => 'purchase_address' do
+      collection do
+        put :cep_address
+      end
+    end
+    resource :payment, :only => [:edit, :update], :controller => 'purchase_payment'
     collection do
       put :update_product
       put :add_product
@@ -20,7 +26,7 @@ Portal::Application.routes.draw do
     end
   end
   
-  resource :login, :only => [:new, :create]
+  resource :login, :only => [:new, :create, :destroy]
   
   # The priority is based upon order of creation:
   # first created -> highest priority.

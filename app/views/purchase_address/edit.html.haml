@@ -1,0 +1,50 @@
+.purchase-address
+  .title
+    Endereço de entrega
+  
+  .address-form
+    = form_tag purchase_address_path(@purchase), :method => :put do
+      .field
+        CEP*
+      .value
+        = text_field_tag :cep, @address.cep
+        = button_tag "Buscar por CEP", { :controller => :purchase_address, :action => :cep_address, :purchase_id => @purchase.id, :method => :put }
+      %br
+      
+      .field
+        Rua*
+      .value
+        = text_field_tag :logradouro, @address.logradouro
+      %br
+      
+      .field
+        Numero*
+      .value
+        = text_field_tag :numero, @address.numero
+      %br
+      
+      .field
+        Complemento
+      .value
+        = text_field_tag :complemento, @address.complemento
+      %br
+      
+      .field
+        Bairro*
+      .value
+        = text_field_tag :bairro, @address.bairro
+      %br
+      
+      .field
+        Localidade*
+      .value
+        = text_field_tag :localidade, @address.localidade
+      %br
+      
+      .field
+        UF*
+      .value
+        = text_field_tag :uf, @address.uf
+      %br
+  
+      =button_tag "Ir para pagamento", :disable_with => "Espere..."
