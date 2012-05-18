@@ -8,7 +8,7 @@
         CEP*
       .value
         = text_field_tag :cep, @address.cep
-        = button_tag "Buscar por CEP", { :controller => :purchase_address, :action => :cep_address, :purchase_id => @purchase.id, :method => :put }
+        = button_tag "Buscar por CEP", :value => :cep_address, :disable_with => "Espere..."
       %br
       
       .field
@@ -47,4 +47,5 @@
         = text_field_tag :uf, @address.uf
       %br
   
-      =button_tag "Ir para pagamento", :disable_with => "Espere..."
+      =button_tag "Buscar pelos campos", :value => :search_address, :disable_with => "Espere..."
+      =button_tag "Ir para pagamento", :value => :verify_address, :disable_with => "Espere..."

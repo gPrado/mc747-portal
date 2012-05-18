@@ -25,9 +25,12 @@ class AddressFactory < SoapBase
   end
   
   def search_address(address)
+    query = "#{address.cep} #{address.logradouro} #{address.bairro} #{address.localidade} #{address.uf}"
+    raise "Pelo menos um campo deve ser preenchido" if query.blank?
+    
     response = client.request :search_address do
       soap.body = {
-        :query => "#{address.cep} #{address.logradouro} #{address.bairro} #{address.localidade} #{address.uf}"
+        :query => query
       }
     end
     
@@ -36,8 +39,11 @@ class AddressFactory < SoapBase
     if(errors)
       raise errors[:description]
     else
-      response[:search_address_response][:return][:addresses][:item].map do |item|
-        Address.new(item)
+      addresses = response[:search_address_response][:return][:addresses][:item]
+      if addresses.instance_of?(Array)
+        addresses.map{ |item| Address.new(item) }
+      else
+        [Address.new(addresses)]
       end
     end
   end

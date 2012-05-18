@@ -1,0 +1,12 @@
+.address
+  = "#{address.logradouro} - #{address.bairro} - #{address.localidade} / #{address.uf} - #{address.cep}"
+
+  = form_tag purchase_address_path(@purchase), :method => :put do
+    = hidden_field_tag :cep, address.cep
+    = hidden_field_tag :logradouro, address.logradouro
+    = hidden_field_tag :localidade, address.localidade
+    = hidden_field_tag :bairro, address.bairro
+    = hidden_field_tag :uf, address.uf    
+    
+    = button_tag('Escolher', :value => :verify_address, :disable_with => 'Espere...')
+  
