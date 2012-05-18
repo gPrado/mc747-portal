@@ -17,4 +17,18 @@ class Product
     @altura         = params[:altura]
   end
 
+  def price
+    product_info.price
+  end
+  
+  def quantity
+    product_info.quantity
+  end
+
+  private
+  
+  def product_info
+    @product_info ||= ProductInfoFactory.instance.find id
+  end
+
 end

@@ -8,18 +8,14 @@ class Purchase < ActiveRecord::Base
   end
 
   def products
-    pps = ProductPurchase.find_all_by_purchase_id(id)
-    @products ||= pps.map do |pp|
-      { :product => pp.product,
-        :amount => pp.product_amount }
-    end
+    ProductPurchase.find_all_by_purchase_id(id)
   end
 
-  def update_product(product_id, amount = 0)
+  def update_product(product_id, product_amount = 0)
     pps = ProductPurchase.find_all_by_purchase_id(id)
     pp = pps.find{ |pp| pp.product_id == product_id }
     if pp
-      pp.product_amount = amount > 0 ? amount : pp.product_amount + 1
+      pp.product_amount = product_amount > 0 ? product_amount : pp.product_amount + 1
       pp.save
     else
       ProductPurchase.create :product_id => product_id, :purchase_id => id

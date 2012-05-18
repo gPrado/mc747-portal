@@ -30,7 +30,7 @@ class PurchasesController < ApplicationController
   
   def update_product
     @purchase = Purchase.edit_or_new(@user_id)
-    @purchase.update_product(params[:id], params[:amount].to_i)
+    @purchase.update_product(params[:id], params[:product_amount].to_i)
     flash[:notice] = "Quantidade atualizada com sucesso"
     redirect_to cart_purchases_path
   end
