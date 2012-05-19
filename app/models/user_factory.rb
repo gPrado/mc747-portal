@@ -1,32 +1,31 @@
 class UserFactory < SoapBase
   
   def find(cpf)
-    response = client.request :busca_informacoes_cliente do
-      soap.body = {
-        :cpf => cpf
-      }
-    end
-    
-    item = response[:exibe_detalhes_id_response][:return][:item]
-    item response[:busca_informacoes_cliente_response][:return][:item]
-    build_new_user(item)
-
+    # response = client.request :busca_informacoes_cliente do
+      # soap.body = {
+        # "CPF" => cpf
+      # }
+    # end
+#     
+    # item response[:busca_informacoes_cliente_response][:return][:item]
+    # User.new(item)
+    User.new(:nome => "Gabriel", :cpf => "123", :cep => "13073-010", :numero_endereco => "101", :complemento_endereco => "apto 1042") #TODO remove this line
   end
   
-  private
+  # private
   
-  def build_new_user(item)
-    # User.new(:cpf                 => 
-             # :nome                => 
-             # :dataNascimento      => 
-             # :dataCadastro        => 
-             # :rg                  => 
-             # :cep                 => 
-             # :numeroEndereco      => 
-             # :complementoEndereco => 
-             # :potencialCompra     => 
-             # :email               => )
-  end
+  # def build_new_user(item)
+    # (:cpf                 => item[:cpf],
+             # :nome                => item[:nome],
+             # :dataNascimento      => item[:data_nascimento],
+             # :dataCadastro        => item[:data_cadastro],
+             # :rg                  => item[:rg],
+             # :cep                 => item[:cep],
+             # :numeroEndereco      => item[:numero_endereco],
+             # :complementoEndereco => item[:complemento_endereco],
+             # :potencialCompra     => item[:potencial_compra],
+             # :email               => item[:email])
+  # end
   
   class << self
     

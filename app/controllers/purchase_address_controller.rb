@@ -1,6 +1,8 @@
 # encoding: utf-8
 class PurchaseAddressController < ApplicationController
   
+  before_filter :authenticate_user!
+  
   def edit
     @purchase = Purchase.find(params[:purchase_id])
     @address = @purchase.address
@@ -15,7 +17,7 @@ class PurchaseAddressController < ApplicationController
       errors = AddressFactory.instance.verify_address(@address)
       if errors.blank? && !params[:numero].blank?
         @purchase.update_address(@address)
-        redirect_to edit_purchase_payment_path(@purchase)
+        redirect_to edit_purchase_delivery_path(@purchase)
       else
         if params[:numero].blank?
           errors.concat(", ") unless errors.blank? 

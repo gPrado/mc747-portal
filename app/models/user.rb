@@ -1,18 +1,18 @@
 class User
   
-  attr_accessor :cpf, :nome, :dataNascimento, :dataCadastro, :rg, :cep,
-                :numeroEndereco, :complementoEndereco, :potencialCompra, :email
+  attr_accessor :cpf, :nome, :data_nascimento, :dat_cCadastro, :rg, :cep,
+                :numero_endereco, :complemento_endereco, :potencial_compra, :email
 
   def initialize(params)
     @cpf                  = params[:cpf]
     @nome                 = params[:nome]
-    @dataNascimento       = params[:dataNascimento]
-    @dataCadastro         = params[:dataCadastro]
+    @data_nascimento      = params[:data_nascimento]
+    @data_cadastro        = params[:data_cadastro]
     @rg                   = params[:rg]
     @cep                  = params[:cep]
-    @numeroEndereco       = params[:numeroEndereco]
-    @complementoEndereco  = params[:complemento]
-    @potencialCompra      = params[:potencial]
+    @numero_endereco      = params[:numero_endereco]
+    @complemento_endereco = params[:complemento_endereco]
+    @potencial_compra     = params[:potencial_compra]
     @email                = params[:email]
   end
 

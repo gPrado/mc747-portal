@@ -2,8 +2,12 @@
   .cart
     .title
       Meu carrinho
-  
-    .products
-      = render :partial => 'cart_product', :collection => @cart_products, :spacer_template => 'layouts/separator'  
-  .finish
-    = button_to('Ir para entrega', edit_purchase_address_path(@purchase), :method => :get, :disable_with => 'Espere...')
+    
+    - if @cart_products.empty?
+      Nenhum produto no carrinho
+    - else
+      .products
+        = render :partial => 'cart_product', :collection => @cart_products, :spacer_template => 'layouts/separator'  
+    
+      .finish
+        = button_to('Ir para endereço de entrega', edit_purchase_address_path(@purchase), :method => :get, :disable_with => 'Espere...')

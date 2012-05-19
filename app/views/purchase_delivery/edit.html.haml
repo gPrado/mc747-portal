@@ -1,0 +1,13 @@
+.purchase-delivery
+  .handling
+    Escolha o modo de entrega
+    = form_tag purchase_delivery_path(@purchase), :method => :put do
+      = select_tag( :modo_entrega, options_for_select(Delivery.human_modo_entregas.zip(1..3) , @purchase.modo_entrega))
+      = button_tag('Atualizar', :disable_with => 'Espere...')
+      
+  .shipping
+    Valor do frete: 
+    = format_price(@purchase.shipping)
+
+  = form_tag edit_purchase_payment_path(@purchase), :method => :get do
+    = button_tag "Ir para pagamento" , :disable_with => "Espere..."

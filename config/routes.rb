@@ -17,6 +17,7 @@ Portal::Application.routes.draw do
         put :cep_address
       end
     end
+    resource :delivery, :only => [:edit, :update], :controller => 'purchase_delivery'
     resource :payment, :only => [:edit, :update], :controller => 'purchase_payment'
     collection do
       put :update_product

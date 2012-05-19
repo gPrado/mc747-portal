@@ -18,11 +18,15 @@ class Product
   end
 
   def price
-    product_info.price
+    @price ||= product_info.price
   end
   
   def quantity
     product_info.quantity
+  end
+
+  def volume
+    comprimento * altura * largura
   end
 
   private
