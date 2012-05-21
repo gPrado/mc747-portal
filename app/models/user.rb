@@ -16,4 +16,16 @@ class User
     @email                = params[:email]
   end
 
+  def credit_situation
+    CreditAnalysisFactory.instance.client_status(cpf).situation
+  end
+
+  def available_payment_types
+    all = Payment.payment_types
+    if credit_situation != :regular
+      all.delete(all.last)
+    end
+    all
+  end
+
 end

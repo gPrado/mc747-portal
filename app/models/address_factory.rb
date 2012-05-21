@@ -1,6 +1,7 @@
 class AddressFactory < SoapBase
   
   def verify_address(address)
+    Rails.logger.debug "#{self.class}#verify_address"
     response = client.request :verify_address do
       soap.body = {
         :address => {
@@ -25,6 +26,7 @@ class AddressFactory < SoapBase
   end
   
   def search_address(address)
+    Rails.logger.debug "#{self.class}#search_address"
     query = "#{address.cep} #{address.logradouro} #{address.bairro} #{address.localidade} #{address.uf}"
     raise "Pelo menos um campo deve ser preenchido" if query.blank?
     
@@ -49,6 +51,7 @@ class AddressFactory < SoapBase
   end
   
   def cep_address(cep)
+    Rails.logger.debug "#{self.class}#cep_address"
     response = client.request :cep_address do
       soap.body = {
         :cep => cep

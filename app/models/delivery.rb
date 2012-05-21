@@ -17,11 +17,23 @@ class Delivery
   end
 
   def submit
-    @cod_rastr = DeliveryFactory.instance.make_delivery(purchase)
+    cod_rastr = DeliveryFactory.instance.make_delivery(purchase)
   end
 
   def status
     DeliveryFactory.instance.status(cod_rastr)
+  end
+
+  def human_status
+    self.class.human_statuses[status.to_i]
+  end
+
+  def allow_delivery
+    DeliveryFactory.instance.update_status(cod_rastr, 1)
+  end
+
+  def deliver
+    DeliveryFactory.instance.update_status(cod_rastr, 3)
   end
 
   class << self
@@ -30,6 +42,14 @@ class Delivery
       [ "Transporte Aéreo",
         "Transporte Rodoviário",
         "Transp. Rodoviário Prioritário"]
+    end
+    
+    def human_statuses
+      [ "Em processamento",
+        "Em trânsito",
+        "Atrasado",
+        "Entregue",
+        "Cancelado"]    
     end
     
   end

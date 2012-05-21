@@ -42,11 +42,16 @@ class PurchasesController < ApplicationController
   
   def create
     @purchase = Purchase.edit_or_new(@current_user.cpf)
-    if @purchase.submit
-      flash[:notice] = "Compra realizada com sucesso!"
-      redirect_to :root
-    else
-      flash[:alert] = "A compra não pôde ser efetuada"
+    begin
+      if @purchase.submit
+        flash[:notice] = "Compra realizada com sucesso!"
+        redirect_to :root
+      else
+        flash[:alert] = "A compra não pôde ser efetuada"
+        redirect_to cart_purchases_path
+      end
+    rescue Exception => e
+      flash[:alert] = e.message
       redirect_to cart_purchases_path
     end
   end

@@ -1,5 +1,8 @@
 .purchases
   .title
     Minhas Compras
-  .items
-    = render :partial => 'purchases/purchase', :collection => @purchases, :spacer_template => 'layouts/separator'
+  - if @purchases.empty?
+    Você ainda não realizou nenhuma compra
+  -else
+    .items
+      = render :partial => 'purchases/purchase', :collection => @purchases, :spacer_template => 'layouts/separator'

@@ -1,0 +1,17 @@
+.purchase-payment
+  = form_tag update_payment_count_purchase_payment_path(@purchase), :method => :put do
+    Número de parcelas
+    = select_tag :payment_count, options_for_select(@purchase.credit_card.available_payment_count(@current_user.potencial_compra), @purchase.payment_count)
+    = button_tag "Atualizar", :disable_with => "Espere..."
+
+    - price = @purchase.products_price_juros
+    %br
+    Valor da parcela
+    = format_price(price / @purchase.payment_count)
+    
+    %br
+    Valor total
+    = format_price(price)
+    
+  = form_tag purchase_path(@purchase), :method => :get do
+    = button_tag "Revisar compra", :disable_with => "Espere..."

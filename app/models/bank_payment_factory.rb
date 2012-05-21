@@ -1,6 +1,7 @@
 class BankPaymentFactory < SoapBase
   
   def boleto(account, agency, price)
+    Rails.logger.debug "#{self.class}#boleto"
     return (rand*1000).to_i #TODO remove this line when wsdl if implemented
     response = client.request :pagar_via_boleto_bancario do
       soap.body = {
@@ -14,6 +15,7 @@ class BankPaymentFactory < SoapBase
   end
   
   def transferencia(account, agency, price)
+    Rails.logger.debug "#{self.class}#transferencia"
     return (rand*1000).to_i #TODO remove this line when wsdl if implemented
     response = client.request :pagar_via_transferencia_bancaria do
       soap.body = {
@@ -27,6 +29,7 @@ class BankPaymentFactory < SoapBase
   end
   
   def deposito(account, agency, price)
+    Rails.logger.debug "#{self.class}#deposito"
     return (rand*1000).to_i #TODO remove this line when wsdl if implemented
     response = client.request :pagar_via_deposito_bancario do
       soap.body = {
@@ -40,6 +43,7 @@ class BankPaymentFactory < SoapBase
   end
   
   def status(id)
+    Rails.logger.debug "#{self.class}#status"
     return "pendente" #TODO remove this line when wsdl if implemented
     response = client.request :verifica_status_pagamento do
       soap.body = {

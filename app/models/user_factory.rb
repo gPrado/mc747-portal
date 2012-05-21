@@ -1,15 +1,20 @@
 class UserFactory < SoapBase
   
   def find(cpf)
-    # response = client.request :busca_informacoes_cliente do
-      # soap.body = {
-        # "CPF" => cpf
-      # }
-    # end
-#     
-    # item response[:busca_informacoes_cliente_response][:return][:item]
-    # User.new(item)
-    User.new(:nome => "Gabriel", :cpf => "123", :cep => "13073-010", :numero_endereco => "101", :complemento_endereco => "apto 1042") #TODO remove this line
+    Rails.logger.debug "#{self.class}#find"
+    begin
+      response = client.request :mns1, :busca_informacoes_cliente do
+        soap.body = {
+          "CPF" => cpf
+        }
+      end
+    rescue Savon::SOAP::Fault => e
+      Rails.logger.info e.message
+      raise e.message
+    end
+    
+    item = response[:busca_informacoes_cliente_response][:return]
+    User.new(item)
   end
   
   # private

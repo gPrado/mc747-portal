@@ -18,7 +18,14 @@ Portal::Application.routes.draw do
       end
     end
     resource :delivery, :only => [:edit, :update], :controller => 'purchase_delivery'
-    resource :payment, :only => [:edit, :update], :controller => 'purchase_payment'
+    resource :payment, :only => [:edit, :update, :show], :controller => 'purchase_payment' do
+      collection do
+        get :edit_cc
+        put :update_cc
+        get :edit_payment_count
+        put :update_payment_count
+      end
+    end
     collection do
       put :update_product
       put :add_product

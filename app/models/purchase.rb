@@ -2,7 +2,7 @@ class Purchase < ActiveRecord::Base
   
   attr_accessible :id, :user_id, :completed,
                   :cep, :logradouro, :bairro, :localidade, :uf, :complemento, :numero,
-                  :modo_entrega, :shipping,
+                  :modo_entrega, :shipping, :estimated_time,
                   :payment_count, :payment_type, :payment_id,
                   :cc_numero, :cc_nome, :cc_validade, :cc_codigo, :cc_bandeira
   
@@ -49,8 +49,21 @@ class Purchase < ActiveRecord::Base
     end    
   end
 
+  def products_price_juros
+    products_price*(1+juros)
+  end
+
+  def juros
+    case payment_type
+    when "credit_card"
+      credit_card.juros[payment_count-1]
+    else
+      0
+    end
+  end
+
   def price
-    products_price + shipping
+    products_price_juros + shipping
   end
 
   def update_address(address)
@@ -67,12 +80,32 @@ class Purchase < ActiveRecord::Base
     update_attributes!(:modo_entrega => delivery.modo_entrega)
   end
 
+  def update_cc(cc)
+    update_attributes!(:cc_numero   => cc.numero,
+                       :cc_nome     => cc.nome,
+                       :cc_bandeira => cc.bandeira,
+                       :cc_codigo   => cc.codigo,
+                       :cc_validade => cc.validade)
+  end
+
+  def update_payment_type(payment_type)
+    update_attributes!(:payment_type => payment_type)
+  end
+
+  def update_payment_count(payment_count)
+    update_attributes!(:payment_count => payment_count)
+  end
+
   def shipping
-    @shipping || delivery.shipping
+    @shipping || delivery.shipping.fee
+  end
+
+  def estimated_time
+    @estimated_time || delivery.shipping.estimated_time
   end
 
   def delivery_status
-    delivery.status
+    delivery.human_status
   end
 
   def delivery
@@ -103,17 +136,29 @@ class Purchase < ActiveRecord::Base
                 :cc_bandeira   => cc_bandeira)
   end
 
+  def credit_card
+    CreditCard.new(:numero   => cc_numero,
+                   :nome     => cc_nome,
+                   :validade => cc_validade,
+                   :codigo   => cc_codigo,
+                   :bandeira => cc_bandeira)
+  end
+
   def submit
     pps = ProductPurchase.find_all_by_purchase_id(id)
     pps.empty? and return false
     if payment_id = payment.submit
-      products.each{ |p| p.submit }
       cod_rastr = delivery.submit
+      products.each{ |p| p.submit }
       update_attribute :completed, true
       update_attribute :shipping, shipping
+      update_attribute :estimated_time, estimated_time
       update_attribute :cod_rastr, cod_rastr
       update_attribute :payment_id, payment_id
+      
+      delivery.allow_delivery if payment_type.to_s == "credit_card"
     end
+    true
   end
 
   class << self
@@ -124,8 +169,8 @@ class Purchase < ActiveRecord::Base
     
     def create_for_user(user_id)
       transaction do
-        address = create(:user_id => user_id.to_s)
-        address.update_address(Address.from_user(user_id))
+        cart = create(:user_id => user_id.to_s)
+        cart.update_address(Address.from_user(user_id))
       end
       find_cart(user_id)
     end

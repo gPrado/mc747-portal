@@ -1,50 +1,55 @@
 .purchases
   - if @purchase.completed
     Compra realizada em
-    = @purchase.updated_at.strftime("%d %b %Y")
-  
+    = format_date(@purchase.updated_at)
+
   .items
     = render :partial => 'purchases/purchase_product', :collection => @purchase.products, :spacer_template => 'layouts/separator'
   
   .price
-    Valor total dos produtos
+    Valor total dos produtos:
     = format_price(@purchase.products_price)
-  
+
   .address
-    Endereço de entrega
+    Endereço de entrega:
     %br
     = "#{@purchase.logradouro}, #{@purchase.numero} "
     = "#{@purchase.complemento} " unless @purchase.complemento.blank?
     = "- #{@purchase.bairro} - #{@purchase.localidade} / #{@purchase.uf} - #{@purchase.cep}"
   
   .delivery
-    Modo de entrega
+    Modo de entrega:
     = @purchase.delivery.human_modo_entrega
-  
+
   .shipping
-    Valor do frete
+    Valor do frete:
     = format_price(@purchase.shipping)
-  
+
+  .estimated-time
+    Tempo estimado: 
+    = @purchase.estimated_time
+    = @purchase.completed ? "dias úteis a partir da data da compra" : "dias úteis" 
+
   .payment
-    Modo de pagamento
-    = @purchase.payment_type
+    Modo de pagamento:
+    = @purchase.payment.human_payment_type
     - if @purchase.payment_type == "credit_card"
       %br
-      Número de parcelas
+      Número de parcelas:
       = @purchase.payment_count
       %br
-      Bandeira
+      Bandeira:
       = @purchase.cc_bandeira
-      Final do cartão
+      Final do cartão:
       = @purchase.cc_numero[-4..-1]
   
   .total
-    Valor total
+    Valor total:
     = format_price(@purchase.price)
   
   - if @purchase.completed
     .status
-      Status da entrega
+      Status da entrega:
       = @purchase.delivery_status
   - else
     = form_tag purchases_path do

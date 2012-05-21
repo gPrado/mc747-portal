@@ -1,6 +1,8 @@
 # encoding: utf-8
 class LoginsController < ApplicationController
   
+  skip_filter :current_user, :only => :destroy
+  
   def new
   end
   

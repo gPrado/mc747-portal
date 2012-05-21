@@ -2,12 +2,13 @@
 class CreditCardPaymentFactory < SoapBase
   
   def make_payment(credit_card, price, payment_count)
+    Rails.logger.debug "#{self.class}#make_payment"
     response = client.request :valida_compra, :valida_compra do
       soap.body = {
         "ValorDaCompra"        => price,
         "NomeDoTitular"        => credit_card.nome,
-        "BandeiraDoCartão"     => credit_card.bandeira,
-        "NumeroDoCartão"       => credit_card.numero,
+        "BandeiraDoCartao"     => credit_card.bandeira,
+        "NumeroDoCartao"       => credit_card.numero,
         "DataDeValidade"       => credit_card.validade,
         "CodigoDeSeguranca"    => credit_card.codigo,
         "QuantidadeDeParcelas" => payment_count
@@ -16,6 +17,27 @@ class CreditCardPaymentFactory < SoapBase
     CreditCardPayment.new(:valid => response[:valida_compra_response][:return])
   rescue Savon::SOAP::Fault => e
     CreditCardPayment.new(:valid => false, :error => r.to_hash[:fault][:faultstring])
+  end
+  
+  def card_list
+    Rails.logger.debug "#{self.class}#card_list"
+    response = client.request :lista_cartoes, :lista_cartoes
+    response[:lista_cartoes_response][:return].map do |item|
+      build_card(item)
+    end
+  end
+  
+  private
+  
+  def build_card(item)
+    juros = if(item[:juros].is_a?(Array))
+              item[:juros].map { |j| j[:juros] }
+            else
+              [item[:juros][:juros]]
+            end
+    CreditCard::CreditCardType.new(:bandeira         => item[:bandeira],
+                                   :qtd_max_parcelas => item[:quantidade_max_parcelas],
+                                   :juros            => juros)
   end
   
   class << self

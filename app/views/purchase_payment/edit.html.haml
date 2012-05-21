@@ -1,2 +1,7 @@
-= form_tag purchase_payment_path(@purchase), :method => :put do
-  = button_tag "Revisar compra"
+.purchase-payment
+  = form_tag purchase_payment_path(@purchase), :method => :put do
+    .payment-type
+      Escolha o modo de pagamento
+      = select_tag( :payment_type, options_for_select(@current_user.available_payment_types , @purchase.payment_type))
+
+    = button_tag "Ir para detalhes do pagamento", :disable_with => "Espere..."

@@ -1,6 +1,7 @@
 class ProductInfoFactory < SoapBase
   
   def find(id)
+    Rails.logger.debug "#{self.class}#find"
     response = client.request :return_product_info do
       soap.body = {
         "ID" => id

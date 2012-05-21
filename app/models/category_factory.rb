@@ -16,6 +16,7 @@ class CategoryFactory < SoapBase
   private
   
   def raw
+    Rails.logger.debug "#{self.class}#raw"
     response = client.request :listar_categorias
     array = response[:listar_categorias_response][:return][:item] || []
     array.map do |item|

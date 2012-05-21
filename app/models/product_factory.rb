@@ -1,6 +1,7 @@
 class ProductFactory < SoapBase
   
   def find_all_by_category(category_id)
+    Rails.logger.debug "#{self.class}#find_all_by_category"
     response = client.request :busca_avancada do
       soap.body = {
         :categoria_id => category_id,
@@ -13,6 +14,7 @@ class ProductFactory < SoapBase
   end
 
   def find_all_by_brand(brand_id)
+    Rails.logger.debug "#{self.class}#find_all_by_brand"
     response = client.request :busca_avancada do
       soap.body = {
         :categoria_id => nil,
@@ -25,14 +27,20 @@ class ProductFactory < SoapBase
   end
   
   def find(product_id)
-    response = client.request :exibe_detalhes_id do
-      soap.body = {
-        :id => product_id
-      }
+    Rails.logger.debug "#{self.class}#find"
+    begin
+      response = client.request :exibe_detalhes_id do
+        soap.body = {
+          :id => product_id
+        }
+      end
+      
+      item = response[:exibe_detalhes_id_response][:return][:item]
+      build_new_product(item)
+    rescue Timeout::Error => e
+      Rails.logger.info e.message
+      raise "Timeout ao buscar produto"
     end
-    
-    item = response[:exibe_detalhes_id_response][:return][:item]
-    build_new_product(item)
   end
   
   private

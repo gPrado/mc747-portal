@@ -1,6 +1,7 @@
 class LoginFactory < SoapBase
   
   def login(cpf, passwd)
+    Rails.logger.debug "#{self.class}#login"
     response = client.request :authenticate do
       soap.body = {
         :cpf      => cpf,

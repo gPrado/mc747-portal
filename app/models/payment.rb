@@ -1,3 +1,4 @@
+# encoding: utf-8
 class Payment
   
   attr_accessor :cc_numero, :cc_nome, :cc_validade, :cc_codigo, :cc_bandeira,
@@ -41,5 +42,31 @@ class Payment
                    :cc_bandeira => cc_bandeira)
   end
   
+  def human_payment_type
+    self.class.human_payment_type payment_type
+  end
   
+  class << self
+
+    def human_payment_type(payment_type)
+      case payment_type
+      when "boleto"
+        "Boleto Bancário"
+      when "transferencia"
+        "Transferência Bancária"
+      when "deposito"
+        "Depósito Bancário"
+      when "credit_card"
+        "Cartão de Crédito"
+      else
+        raise "Unknown payment type"
+      end
+    end
+    
+    def payment_types
+      ["boleto" ,"transferencia", "deposito", "credit_card"].map do |type|
+        [human_payment_type(type), type]
+      end
+    end
+  end
 end
