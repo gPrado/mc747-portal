@@ -3,11 +3,9 @@
     = link_to product.nome, product_path(product.id)
   .spec
     = truncate(product.especificacao, :length => 250)
-  .price
-    = format_price(product.price)
   - if product.quantity > 0
-    .available
-      Disponível
+    .price
+      = format_price(product.price)
   -else
     .unavailable
       Esgotado

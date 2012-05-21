@@ -2,8 +2,12 @@
   .product
     .name
       = @product.nome
-    .price
-      = format_price(@product.price)
+    - if @product.quantity > 0
+      .price
+        = format_price(@product.price)
+    -else
+      .unavailable
+        Esgotado
     .brand-name
       = link_to @product.marca_nome, brand_products_path(@product.marca_id)
     .spec
@@ -21,7 +25,3 @@
 
     - if @product.quantity > 0
       = button_to('Comprar', { :controller => 'purchases', :action => 'add_product', :id => @product.id }, :method => :put, :disable_with => 'Espere...')
-    -else
-      .unavailable
-        Esgotado
-    

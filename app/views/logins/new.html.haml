@@ -1,9 +1,16 @@
 .login
+  .title
+    Login
   = form_tag login_path do
     .cpf
-      CPF
-      = text_field_tag :cpf
+      .label
+        CPF
+      .field
+        = text_field_tag :cpf
     .passwd
-      Senha
-      = password_field_tag :passwd
-    = button_tag "Login"
+      .label
+        Senha
+      .field
+        = password_field_tag :passwd
+    .submit
+      = button_tag "Login"

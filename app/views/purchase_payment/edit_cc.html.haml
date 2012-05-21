@@ -1,24 +1,40 @@
 .purchase-payment
-  Dados do cartão de crédito
-  = form_tag update_cc_purchase_payment_path(@purchase), :method => :put do
-    Nome do titular
-    = text_field_tag :nome, @purchase.cc_nome
-    
-    %br
-    Bandeira
-    = select_tag :bandeira, options_for_select(CreditCard.available_bandeiras, @purchase.cc_bandeira)
-    
-    %br
-    Validade (formato: mm/aa)
-    = text_field_tag :validade, @purchase.cc_validade
-    
-    %br
-    Número (formato: XXXX.XXXX.XXXX.XXXX)
-    = text_field_tag :numero, @purchase.cc_numero
-    
-    %br
-    Código de segurança
-    = text_field_tag :codigo, @purchase.cc_codigo
-    
-    %br
-    = button_tag "Ir para número de parcelas", :disable_with => "Espere..." 
+  .title
+    Dados do cartão de crédito
+  .cc-payment
+    = form_tag update_cc_purchase_payment_path(@purchase), :method => :put do
+      .field
+        Nome do titular:
+      .value
+        = text_field_tag :nome, @purchase.cc_nome
+      %br
+      
+      .field
+        Bandeira:
+      .value
+        = select_tag :bandeira, options_for_select(CreditCard.available_bandeiras, @purchase.cc_bandeira)
+      %br
+      
+      .format
+        (formato: mm/aa)
+      .field
+        Validade:
+      .value
+        = text_field_tag :validade, @purchase.cc_validade
+      %br
+      
+      .format
+        (formato: XXXX.XXXX.XXXX.XXXX)
+      .field
+        Número:
+      .value
+        = text_field_tag :numero, @purchase.cc_numero
+      %br
+      
+      .field
+        Código de segurança:
+      .value
+        = text_field_tag :codigo, @purchase.cc_codigo
+      
+      .button
+        = button_tag "Ir para número de parcelas", :disable_with => "Espere..." 

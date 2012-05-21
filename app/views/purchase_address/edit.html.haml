@@ -46,6 +46,7 @@
       .value
         = text_field_tag :uf, @address.uf
       %br
-  
-      =button_tag "Buscar pelos campos", :value => :search_address, :disable_with => "Espere..."
-      =button_tag "Ir para modo de entrega", :value => :verify_address, :disable_with => "Espere..."
+      
+      .buttons
+        =button_tag "Buscar pelos campos", :value => :search_address, :disable_with => "Espere..."
+        =button_tag "Ir para modo de entrega", :value => :verify_address, :disable_with => "Espere..."

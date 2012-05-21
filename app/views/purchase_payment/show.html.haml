@@ -1,15 +1,23 @@
 .purchase-payment
-  .payment-type
-    Modo de pagamento:
-    = @purchase.payment.human_payment_type
-  .payment-data
-    Dados para pagamento:
-    .agency
-      Agência:
-      = PortalAccountInfo.instance.agency
-    .account
-      Conta:
-      = PortalAccountInfo.instance.account
+  .title
+    Detalhes do pagamento
+  .bank-payment
+    .payment-type
+      Modo de pagamento:
+      .value.bold
+        = @purchase.payment.human_payment_type
+    .payment-data
+      Dados para pagamento:
+      .agency
+        .value
+          Agência:
+          %span.bold
+            = PortalAccountInfo.instance.agency
+      .account
+        .value
+          Conta:
+          %span.bold
+            = PortalAccountInfo.instance.account
 
-  = form_tag purchase_path(@purchase), :method => :get do
-    = button_tag "Revisar compra", :disable_with => "Espere..."
+    = form_tag purchase_path(@purchase), :method => :get do
+      = button_tag "Revisar compra", :disable_with => "Espere..."
