@@ -2,30 +2,30 @@
 class Payment
   
   attr_accessor :cc_numero, :cc_nome, :cc_validade, :cc_codigo, :cc_bandeira,
-                :payment_count, :payment_type, :payment_id, :price
+                :payment_count, :payment_type, :payment_id, :payment_price
   
   def initialize(params)
-    @price         = params[:price],
-    @payment_count = params[:payment_count],
-    @payment_type  = params[:payment_type],
-    @payment_id    = params[:payment_id],
-    @cc_numero     = params[:cc_numero],
-    @cc_nome       = params[:cc_nome],
-    @cc_validade   = params[:cc_validade],
-    @cc_codigo     = params[:cc_codigo],
+    @payment_price = params[:payment_price]
+    @payment_count = params[:payment_count]
+    @payment_type  = params[:payment_type]
+    @payment_id    = params[:payment_id]
+    @cc_numero     = params[:cc_numero]
+    @cc_nome       = params[:cc_nome]
+    @cc_validade   = params[:cc_validade]
+    @cc_codigo     = params[:cc_codigo]
     @cc_bandeira   = params[:cc_bandeira]
   end
   
   def submit
     if payment_type.to_s == "credit_card"
-      payment = CreditCardPaymentFactory.instance.make_payment(credit_card, price, payment_count)
+      payment = CreditCardPaymentFactory.instance.make_payment(credit_card, payment_price, payment_count)
       if payment.valid
         :ok
       else
         raise payment.error
       end
     else
-      payment_id = bank_payment.make_payment(price)
+      payment_id = bank_payment.make_payment(payment_price)
     end
   end
   
@@ -35,11 +35,11 @@ class Payment
   end
   
   def credit_card
-    CreditCard.new(:cc_numero   => cc_numero,
-                   :cc_nome     => cc_nome,
-                   :cc_validade => cc_validade,
-                   :cc_codigo   => cc_codigo,
-                   :cc_bandeira => cc_bandeira)
+    CreditCard.new(:numero   => cc_numero,
+                   :nome     => cc_nome,
+                   :validade => cc_validade,
+                   :codigo   => cc_codigo,
+                   :bandeira => cc_bandeira)
   end
   
   def human_payment_type

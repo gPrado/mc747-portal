@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120520195640) do
+ActiveRecord::Schema.define(:version => 20120522061751) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",              :default => "", :null => false
@@ -59,6 +59,7 @@ ActiveRecord::Schema.define(:version => 20120520195640) do
     t.string   "cc_codigo"
     t.string   "cc_bandeira",    :default => "visa"
     t.integer  "estimated_time"
+    t.string   "price"
   end
 
   add_index "purchases", ["user_id"], :name => "index_purchases_on_user_id"

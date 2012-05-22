@@ -1,11 +1,15 @@
 .product
   .name
     = link_to purchase_product.nome, product_path(purchase_product.product_id)
-  .amount
-    = purchase_product.product_amount
-    Unidades
   .price
-    Valor total
-    = format_price(purchase_product.price)
-    Valor unitário
-    = format_price(purchase_product.product_price)
+    .field
+      Valor unitário:
+    .value
+      = format_price(purchase_product.product_price)
+    .field
+      Valor total:
+    .value
+      = format_price(purchase_product.price)
+  .amount
+    = pluralize(purchase_product.product_amount, 'Unidade')
+  .clear

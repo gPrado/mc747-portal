@@ -12,9 +12,8 @@
     = format_price(@purchase.shipping)
 
   .estimated-time
-    Tempo estimado: 
-    = @purchase.estimated_time
-    dias
+    Tempo estimado:
+    = pluralize(@purchase.estimated_time, 'dia')
 
   = form_tag edit_purchase_payment_path(@purchase), :method => :get do
     = button_tag "Ir para pagamento" , :disable_with => "Espere..."

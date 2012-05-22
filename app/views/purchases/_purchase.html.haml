@@ -1,5 +1,3 @@
 .purchase
-  %span.id
-    = link_to purchase.id, purchase_path(purchase.id)
-  %span.date
-    = format_date(purchase.updated_at)
+  = link_to purchase_path(purchase.id) do
+    = "#{purchase.id} (#{format_date(purchase.updated_at)})"

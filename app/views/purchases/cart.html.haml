@@ -4,7 +4,8 @@
       Meu carrinho
     
     - if @cart_products.empty?
-      Nenhum produto no carrinho
+      .empty
+        Nenhum produto no carrinho
     - else
       .products
         = render :partial => 'cart_product', :collection => @cart_products, :spacer_template => 'layouts/separator'  

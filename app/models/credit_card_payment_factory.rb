@@ -16,7 +16,10 @@ class CreditCardPaymentFactory < SoapBase
     end
     CreditCardPayment.new(:valid => response[:valida_compra_response][:return])
   rescue Savon::SOAP::Fault => e
-    CreditCardPayment.new(:valid => false, :error => r.to_hash[:fault][:faultstring])
+    Rails.logger.info e.message
+    msg = response && response[:fault] && response[:fault][:faultstring]
+    msg = e.message if msg.blank?
+    CreditCardPayment.new(:valid => false, :error => msg)
   end
   
   def card_list

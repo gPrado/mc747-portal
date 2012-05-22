@@ -5,7 +5,7 @@ module ApplicationHelper
   end
   
   def format_date(date)
-    date.strftime("%d %b %Y")
+    l(date, :format => "%d de %B de %Y")
   end
   
 end

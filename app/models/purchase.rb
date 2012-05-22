@@ -2,7 +2,7 @@ class Purchase < ActiveRecord::Base
   
   attr_accessible :id, :user_id, :completed,
                   :cep, :logradouro, :bairro, :localidade, :uf, :complemento, :numero,
-                  :modo_entrega, :shipping, :estimated_time,
+                  :modo_entrega, :shipping, :estimated_time, :price,
                   :payment_count, :payment_type, :payment_id,
                   :cc_numero, :cc_nome, :cc_validade, :cc_codigo, :cc_bandeira
   
@@ -63,7 +63,7 @@ class Purchase < ActiveRecord::Base
   end
 
   def price
-    products_price_juros + shipping
+    attributes["price"] && attributes["price"].to_f || (products_price_juros + shipping)
   end
 
   def update_address(address)
@@ -97,11 +97,11 @@ class Purchase < ActiveRecord::Base
   end
 
   def shipping
-    @shipping || delivery.shipping.fee
+    attributes["shipping"] && attributes["shipping"].to_f || delivery.shipping.fee
   end
 
   def estimated_time
-    @estimated_time || delivery.shipping.estimated_time
+    attributes["estimated_time"] && attributes["estimated_time"].to_i || delivery.shipping.estimated_time
   end
 
   def delivery_status
@@ -125,7 +125,7 @@ class Purchase < ActiveRecord::Base
   end
 
   def payment
-    Payment.new(:price         => price,
+    Payment.new(:payment_price => price,
                 :payment_count => payment_count,
                 :payment_type  => payment_type,
                 :payment_id    => payment_id,
@@ -147,11 +147,13 @@ class Purchase < ActiveRecord::Base
   def submit
     pps = ProductPurchase.find_all_by_purchase_id(id)
     pps.empty? and return false
-    if payment_id = payment.submit
+    payment_id = payment.submit
+    if payment_id
       cod_rastr = delivery.submit
       products.each{ |p| p.submit }
       update_attribute :completed, true
       update_attribute :shipping, shipping
+      update_attribute :price, price
       update_attribute :estimated_time, estimated_time
       update_attribute :cod_rastr, cod_rastr
       update_attribute :payment_id, payment_id

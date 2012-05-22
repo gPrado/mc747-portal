@@ -1,56 +1,116 @@
 .purchases
-  - if @purchase.completed
-    Compra realizada em
-    = format_date(@purchase.updated_at)
-
-  .items
-    = render :partial => 'purchases/purchase_product', :collection => @purchase.products, :spacer_template => 'layouts/separator'
+  .summary
+    .title
+      Resumo do pedido
   
-  .price
-    Valor total dos produtos:
-    = format_price(@purchase.products_price)
+    - if @purchase.completed
+      .date
+        .field
+          Compra realizada em:
+        .value
+          = format_date(@purchase.updated_at)
+      .separator
 
-  .address
-    Endereço de entrega:
-    %br
-    = "#{@purchase.logradouro}, #{@purchase.numero} "
-    = "#{@purchase.complemento} " unless @purchase.complemento.blank?
-    = "- #{@purchase.bairro} - #{@purchase.localidade} / #{@purchase.uf} - #{@purchase.cep}"
-  
-  .delivery
-    Modo de entrega:
-    = @purchase.delivery.human_modo_entrega
+    .items
+      = render :partial => 'purchases/purchase_product', :collection => @purchase.products, :spacer_template => 'layouts/separator'
+    .separator
+    
+    .subtotal
+      .field
+        Valor total dos produtos:
+      .value
+        = format_price(@purchase.products_price)
+    .clear
+    - unless @purchase.completed
+      .button
+        = form_tag cart_purchases_path, :method => :get do
+          = button_tag "Revisar carrinho", :disable_with => "Espere..."
+    .separator
 
-  .shipping
-    Valor do frete:
-    = format_price(@purchase.shipping)
+    .address
+      .field
+        Endereço de entrega:
+      .value
+        = "#{@purchase.logradouro}, #{@purchase.numero} "
+        = "#{@purchase.complemento} " unless @purchase.complemento.blank?
+        = "- #{@purchase.bairro} - #{@purchase.localidade} / #{@purchase.uf} - #{@purchase.cep}"
+    - unless @purchase.completed
+      .button
+        = form_tag edit_purchase_address_path(@purchase), :method => :get do
+          = button_tag "Revisar endereço de entrega", :disable_with => "Espere..."
+    .separator
 
-  .estimated-time
-    Tempo estimado: 
-    = @purchase.estimated_time
-    = @purchase.completed ? "dias úteis a partir da data da compra" : "dias úteis" 
+    .delivery
+      .field
+        Modo de entrega:
+      .value
+        = @purchase.delivery.human_modo_entrega
 
-  .payment
-    Modo de pagamento:
-    = @purchase.payment.human_payment_type
-    - if @purchase.payment_type == "credit_card"
-      %br
-      Número de parcelas:
-      = @purchase.payment_count
-      %br
-      Bandeira:
-      = @purchase.cc_bandeira
-      Final do cartão:
-      = @purchase.cc_numero[-4..-1]
-  
-  .total
-    Valor total:
-    = format_price(@purchase.price)
-  
-  - if @purchase.completed
-    .status
-      Status da entrega:
-      = @purchase.delivery_status
-  - else
-    = form_tag purchases_path do
-      = button_tag "Finalizar compra"
+    .shipping
+      .field
+        Valor do frete:
+      .value
+        = format_price(@purchase.shipping)
+
+    .estimated-time
+      .field
+        Tempo estimado:
+      .value
+        = pluralize(@purchase.estimated_time, 'dia útil')
+        = @purchase.completed ? "a partir da data da compra" : "" 
+    - unless @purchase.completed
+      .button
+        = form_tag edit_purchase_delivery_path(@purchase), :method => :get do
+          = button_tag "Revisar modo de entrega", :disable_with => "Espere..."
+    .separator
+
+    .payment
+      .field
+        Modo de pagamento:
+      .value
+        = @purchase.payment.human_payment_type
+      - if @purchase.payment_type == "credit_card"
+        .cc-flag
+          .field
+            Bandeira:
+          .value
+            = @purchase.cc_bandeira
+        .cc-number
+          .field
+            Final do cartão:
+          .value
+            = @purchase.cc_numero[-4..-1]
+        .payment-count
+          .field
+            Número de parcelas:
+          .value
+            = @purchase.payment_count
+    - unless @purchase.completed
+      .button
+        = form_tag edit_purchase_payment_path(@purchase), :method => :get do
+          = button_tag "Revisar modo de pagamento", :disable_with => "Espere..."
+    .separator
+
+    .total
+      .payment-price
+        .field
+          Valor da parcela:
+        .value
+          = format_price(@purchase.price / @purchase.payment_count)
+      .total-price
+        .field
+          Valor total:
+        .value
+          = format_price(@purchase.price)
+
+    - if @purchase.completed
+      .separator
+      .status
+        .field
+          Status da entrega:
+        .value
+          = @purchase.delivery_status
+    - else
+      .button
+        = form_tag purchases_path do
+          = button_tag "Finalizar compra", :disable_with => "Espere..."
