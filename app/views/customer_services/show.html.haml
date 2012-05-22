@@ -1,0 +1,27 @@
+.customer-services
+  .title
+    Detalhes da solicitação
+
+  .customer-service
+    .field
+      Identificação do pedido:
+    .value
+      = @customer_service.id
+    %br
+
+    .field
+      Descrição:
+    .value
+      = @customer_service.descricao
+    %br
+
+    .field
+      Tipo:
+    .value
+      = @customer_service.human_tipo
+    %br
+
+    .field
+      Status:
+    .value
+      = @customer_service.human_status

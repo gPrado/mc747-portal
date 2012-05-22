@@ -36,6 +36,8 @@ Portal::Application.routes.draw do
   
   resource :login, :only => [:new, :create, :destroy]
   
+  resources :customer_services, :only => [:new, :create, :edit, :update, :show, :index]
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

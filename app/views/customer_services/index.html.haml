@@ -1,0 +1,9 @@
+.customer-services
+  .title
+    Minhas Solicitação
+  - if @customer_services.empty?
+    .empty
+      Você ainda não realizou nenhuma solicitação
+  -else
+    .customer-service-items
+      = render :partial => 'customer_services/customer_service', :collection => @customer_services, :spacer_template => 'layouts/separator'

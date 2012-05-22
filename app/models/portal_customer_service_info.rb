@@ -1,13 +1,9 @@
-class PortalAccountInfo
+class PortalCustomerServiceInfo
   
   include Singleton
   
-  def account
-    config_yaml['account']
-  end
-  
-  def agency
-    config_yaml['agency']
+  def key
+    config_yaml['customer_service_key']
   end
   
   private

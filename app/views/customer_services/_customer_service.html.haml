@@ -1,0 +1,3 @@
+.customer-service-item
+  = link_to customer_service_path(customer_service.id) do
+    = "#{customer_service.id} (#{format_date(customer_service.date)})"

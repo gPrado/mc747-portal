@@ -1,0 +1,19 @@
+.customer-services
+  .title
+    Atualizar Solicitação
+
+  = form_tag customer_service_path(@customer_service.id), :method => :put do
+    .tipo
+      .field
+        Tipo:
+      .value
+        = select_tag :tipo, options_for_select(CustomerService.available_types.zip(1..CustomerService.available_types.size), @customer_service.tipo)
+
+    .descricao
+      .field
+        Descrição:
+      .value
+        = text_area_tag :descricao, @customer_service.descricao
+
+    .button
+      = button_tag "Enviar", :disable_with => "Espere..."
