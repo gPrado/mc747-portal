@@ -29,10 +29,38 @@ class Product
     comprimento * altura * largura
   end
 
+  def image_url
+    if images && images.url.is_a?(String)
+      images.url
+    end
+  end
+
+  def small_image_url
+    if images && images.url_small.is_a?(String)
+      images.url_small
+    end
+  end
+
   private
   
   def product_info
     @product_info ||= ProductInfoFactory.instance.find id
+  end
+
+  def images
+    @images ||= ProductFactory.instance.find_image(id)
+  end
+
+  class ProductImage
+    
+    attr_accessor :url, :url_small, :descricao
+    
+    def initialize(params)
+      @url       = params[:url]
+      @url_small = params[:url_small]
+      @descricao = params[:descricao]
+    end
+    
   end
 
 end

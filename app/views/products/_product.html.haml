@@ -1,19 +1,29 @@
 .simple-product
-  .name
-    = link_to product.nome, product_path(product.id)
-  .spec
-    = truncate(product.especificacao, :length => 250)
-  - if product.quantity > 0
-    .price
-      = format_price(product.price)
-  -else
-    .unavailable
-      Esgotado
-  - unless hide_brand
-    .brand-name
-      Veja mais produtos da marca
-      = link_to product.marca_nome, brand_products_path(product.marca_id)
-  - unless hide_category
-    .category-name
-      Veja mais produtos da categoria
-      = link_to product.categoria_nome, category_products_path(product.categoria_id)
+  - if product.small_image_url
+    .small-image-container
+      = image_tag product.small_image_url
+
+  .details
+    .name
+      = link_to product.nome, product_path(product.id)
+  
+    .spec
+      = truncate(product.especificacao, :length => 250)
+  
+    - if product.quantity > 0
+      .price
+        = format_price(product.price)
+    -else
+      .unavailable
+        Esgotado
+  
+    - unless hide_brand
+      .brand-name
+        Veja mais produtos da marca
+        = link_to product.marca_nome, brand_products_path(product.marca_id)
+  
+    - unless hide_category
+      .category-name
+        Veja mais produtos da categoria
+        = link_to product.categoria_nome, category_products_path(product.categoria_id)
+  .clear

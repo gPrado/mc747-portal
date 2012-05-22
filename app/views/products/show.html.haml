@@ -2,14 +2,21 @@
   .product
     .name
       = @product.nome
+
+    - if @product.image_url
+      .image-container
+        = image_tag @product.image_url
+
     - if @product.quantity > 0
       .price
         = format_price(@product.price)
     -else
       .unavailable
         Esgotado
+
     .brand-name
       = link_to @product.marca_nome, brand_products_path(@product.marca_id)
+
     .spec
       = simple_format @product.especificacao
       %br

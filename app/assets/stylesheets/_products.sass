@@ -18,29 +18,44 @@
   
   .simple-product
     padding: 0 15px
-    .name
-      a
-        color: $dark-blue-color
+    
+    .small-image-container
+      float: left
+      width: 15%
+      max-height: 200px
+      overflow: hidden
+      padding: 0 15px
+      img
+        width: 100%
+
+    .details
+      float: left
+      width: 80%
+
+      .name
+        a
+          color: $dark-blue-color
+          font-size: 14px
+          text-decoration: none
+          font-weight: bold
+          &:hover
+            color: $blue-color
+            text-decoration: underline
+
+      .spec
+        padding: 5px 0
+        font-size: 12px
+
+      .brand-name, .category-name
+        text-align: center
         font-size: 14px
-        text-decoration: none
-        font-weight: bold
-        &:hover
-          color: $blue-color
-          text-decoration: underline
-        
-    .spec
-      padding: 5px 0
-      font-size: 12px
-    .brand-name, .category-name
-      text-align: center
-      font-size: 14px
-      a
-        font-size: 14px
-        color: $dark-red-color
-        text-decoration: none
-        &:hover
-          color: $red-color
-          text-decoration: underline
+        a
+          font-size: 14px
+          color: $dark-red-color
+          text-decoration: none
+          &:hover
+            color: $red-color
+            text-decoration: underline
 
   .product
     padding: 30px
@@ -51,7 +66,11 @@
       font-weight: bold
       text-align: center
       padding: 10px
-      
+    
+    .image-container
+      text-align: center
+      margin: 20px
+    
     .spec
       padding: 5px 0
       font-size: 12px

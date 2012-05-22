@@ -42,6 +42,32 @@ class ProductFactory < SoapBase
       raise "Timeout ao buscar produto"
     end
   end
+
+  def find_image(product_id)
+    Rails.logger.debug "#{self.class}#find_image"
+    begin
+      response = client.request :imagens_produto do
+        soap.body = {
+          :id => product_id
+        }
+      end
+      #return response
+      items = response[:imagens_produto_response][:return][:item]
+      if !items.empty?
+        item = if(items.is_a?(Array))
+          items.first[:item]
+        else
+          items[:item]
+        end
+        build_new_image(item)
+      else
+        nil
+      end
+    rescue Timeout::Error => e
+      Rails.logger.info e.message
+      raise "Timeout ao buscar imagem"
+    end
+  end
   
   private
   
@@ -58,6 +84,12 @@ class ProductFactory < SoapBase
                 :comprimento    => item[8].to_f,
                 :largura        => item[9].to_f,
                 :altura         => item[10].to_f)
+  end
+
+  def build_new_image(item)
+    Product::ProductImage.new(:url_small => item[0],
+                              :url       => item[1],
+                              :descricao => item[2])
   end
   
   class << self
