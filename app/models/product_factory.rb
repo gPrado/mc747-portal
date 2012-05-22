@@ -69,6 +69,20 @@ class ProductFactory < SoapBase
     end
   end
   
+  def search(query)
+    Rails.logger.debug "#{self.class}#search"
+    response = client.request :busca_por_strings do
+      soap.body = {
+        :palavras => query
+      }
+    end
+
+    items = response[:busca_por_strings_response][:return][:item] || []
+    array = items.is_a?(Array) ? items : [items]
+    array.map { |item| build_new_product(item[:item]) }.sort_by{ |prod| prod.nome }
+  end
+
+  
   private
   
   def build_new_product(item)

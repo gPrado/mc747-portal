@@ -9,7 +9,7 @@ Portal::Application.routes.draw do
   resources :brands, :only => [] do
     resources :products, :only => [:index], :controller => 'brand_products'
   end
-  resources :products, :only => [:show]
+  resources :products, :only => [:show, :index]
 
   resources :purchases, :only => [:index, :show, :create] do
     resource :address, :only => [:edit, :update], :controller => 'purchase_address' do

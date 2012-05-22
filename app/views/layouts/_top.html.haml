@@ -9,6 +9,11 @@
       = link_to "Login", new_login_path
   .title
     Portal - Grupo 09
+  .search
+    = form_tag products_path, :method => :get do
+      = text_field_tag :q, @query
+      = button_tag "Buscar", :disable_with => "Espere..."
+
   %ul.menu
     %li
       = link_to "Categorias", categories_path
@@ -17,3 +22,5 @@
         = link_to "Meu Carrinho", cart_purchases_path
       %li
         = link_to "Minhas Compras", purchases_path
+
+  .clear
