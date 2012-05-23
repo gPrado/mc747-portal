@@ -82,7 +82,6 @@ class ProductFactory < SoapBase
     array.map { |item| build_new_product(item[:item]) }.sort_by{ |prod| prod.nome }
   end
 
-  
   private
   
   def build_new_product(item)

@@ -3,17 +3,17 @@
     Atualizar Solicitação
 
   = form_tag customer_service_path(@customer_service.id), :method => :put do
-    .tipo
+    .status
       .field
-        Tipo:
+        Status:
       .value
-        = select_tag :tipo, options_for_select(CustomerService.available_types.zip(1..CustomerService.available_types.size), @customer_service.tipo)
+        = select_tag :status, options_for_select(CustomerService.available_status.zip(0...CustomerService.available_status.size))
 
     .descricao
       .field
         Descrição:
       .value
-        = text_area_tag :descricao, @customer_service.descricao
+        = text_area_tag :descricao
 
     .button
       = button_tag "Enviar", :disable_with => "Espere..."

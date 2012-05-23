@@ -7,7 +7,7 @@
       .field
         Tipo:
       .value
-        = select_tag :tipo, options_for_select(CustomerService.available_types.zip(1..CustomerService.available_types.size))
+        = select_tag :tipo, options_for_select(CustomerService.available_types.zip(0...CustomerService.available_types.size))
 
     .descricao
       .field

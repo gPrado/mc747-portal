@@ -4,13 +4,14 @@ class LoginsController < ApplicationController
   skip_filter :current_user, :only => :destroy
   
   def new
+    redirect_to :root if user_authenticated?
   end
   
   def create
     if LoginFactory.instance.login(params[:cpf], params[:passwd])
       session[:user_id] = params[:cpf]
       flash[:notice] = "Login realizado com sucesso"
-      redirect_to :back
+      redirect_to :root
     else
       flash[:alert] = "Usuário não encontrado"
       redirect_to new_login_path

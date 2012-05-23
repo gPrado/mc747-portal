@@ -10,6 +10,12 @@
     %br
 
     .field
+      Data:
+    .value
+      = format_date(@customer_service.date)
+    %br
+
+    .field
       Descrição:
     .value
       = @customer_service.descricao
@@ -25,3 +31,33 @@
       Status:
     .value
       = @customer_service.human_status
+
+    - unless @customer_service.updates.empty?
+
+      .separator
+  
+      .field
+        Atualizações
+  
+      .updates
+        - @customer_service.updates.each do |update|
+          .field
+            Data:
+          .value
+            = format_date(update.date)
+          %br
+          .field
+            Descrição:
+          .value
+            = update.descricao
+          %br
+          .field
+            Status:
+          .value
+            = update.human_status
+          .separator
+
+
+    .button
+      = form_tag edit_customer_service_path(@customer_service.id), :method => :get do
+        = button_tag "Editar", :disable_with => "Espere..."
