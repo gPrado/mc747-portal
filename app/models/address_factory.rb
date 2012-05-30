@@ -72,8 +72,8 @@ class AddressFactory < SoapBase
     private
     
     def default_wsdl
-      "http://localhost:8888/address_services/wsdl"
-      #"http://padovan.org:3000/address_services/wsdl"
+      # "http://localhost:8888/address_services/wsdl"
+      "http://padovan.org:3000/address_services/wsdl"
     end
   
   end
