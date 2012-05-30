@@ -1,11 +1,11 @@
 class Purchase < ActiveRecord::Base
-  
+
   attr_accessible :id, :user_id, :completed,
                   :cep, :logradouro, :bairro, :localidade, :uf, :complemento, :numero,
                   :modo_entrega, :shipping, :estimated_time, :price,
                   :payment_count, :payment_type, :payment_id,
                   :cc_numero, :cc_nome, :cc_validade, :cc_codigo, :cc_bandeira
-  
+
   def user
     @user ||= User.find(user_id)
   end
@@ -147,7 +147,25 @@ class Purchase < ActiveRecord::Base
   def submit
     pps = ProductPurchase.find_all_by_purchase_id(id)
     pps.empty? and return false
-    payment_id = payment.submit
+
+    updated_products = []
+    begin
+      products.each do |p|
+        p.sub_stock
+        updated_products << p
+      end
+    rescue Exception => e
+      updated_products.each { |p| p.add_stock }
+      raise
+    end
+
+    begin
+      payment_id = payment.submit
+    rescue Exception => e
+      updated_products.each { |p| p.add_stock }
+      raise
+    end
+
     if payment_id
       cod_rastr = delivery.submit
       products.each{ |p| p.submit }
@@ -157,18 +175,18 @@ class Purchase < ActiveRecord::Base
       update_attribute :estimated_time, estimated_time
       update_attribute :cod_rastr, cod_rastr
       update_attribute :payment_id, payment_id
-      
+
       delivery.allow_delivery if payment_type.to_s == "credit_card"
     end
     true
   end
 
   class << self
-    
+
     def edit_or_new(user_id)
       find_cart(user_id) || create_for_user(user_id)
     end
-    
+
     def create_for_user(user_id)
       transaction do
         cart = create(:user_id => user_id.to_s)
@@ -176,12 +194,11 @@ class Purchase < ActiveRecord::Base
       end
       find_cart(user_id)
     end
-    
+
     def find_cart(user_id)
       where(:user_id => user_id.to_s, :completed => false).first
     end
-    
+
   end
 
 end
-  
