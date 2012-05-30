@@ -50,7 +50,7 @@ class CustomerServiceFactory < SoapBase
       }
     end
     items = response[:consultar_chamados_por_usuario_response][:consultar_chamados_por_usuario_result][:chamado_resumido]
-    array = items.is_a?(Array) ? items : [items]
+    array = (items.is_a?(Array) ? items : [items]).compact
     array.map { |item| build_new_customer_service(item) }
   end
   
