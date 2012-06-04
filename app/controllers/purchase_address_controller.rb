@@ -1,17 +1,17 @@
 # encoding: utf-8
 class PurchaseAddressController < ApplicationController
-  
+
   before_filter :authenticate_user!
-  
+
   def edit
     @purchase = Purchase.find(params[:purchase_id])
     @address = @purchase.address
   end
-  
+
   def update
     @address = Address.new(params)
     @purchase = Purchase.find(params[:purchase_id])
-      
+
     case params[:button]
     when 'verify_address'
       errors = AddressFactory.instance.verify_address(@address)
@@ -20,8 +20,8 @@ class PurchaseAddressController < ApplicationController
         redirect_to edit_purchase_delivery_path(@purchase)
       else
         if params[:numero].blank?
-          errors.concat(", ") unless errors.blank? 
-          errors.concat("Número deve ser preenchido") 
+          errors.concat(", ") unless errors.blank?
+          errors.concat("Número deve ser preenchido")
         end
         flash.now[:alert] =  errors
         render :edit
@@ -55,5 +55,5 @@ class PurchaseAddressController < ApplicationController
       raise "Unknown Value"
     end
   end
-  
+
 end

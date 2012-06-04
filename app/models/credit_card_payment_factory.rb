@@ -1,6 +1,6 @@
 # encoding: utf-8
 class CreditCardPaymentFactory < SoapBase
-  
+
   def make_payment(credit_card, price, payment_count)
     Rails.logger.debug "#{self.class}#make_payment"
     response = client.request :valida_compra, :valida_compra do
@@ -21,7 +21,7 @@ class CreditCardPaymentFactory < SoapBase
     msg = e.message if msg.blank?
     CreditCardPayment.new(:valid => false, :error => msg)
   end
-  
+
   def card_list
     Rails.logger.debug "#{self.class}#card_list"
     response = client.request :lista_cartoes, :lista_cartoes
@@ -29,9 +29,9 @@ class CreditCardPaymentFactory < SoapBase
       build_card(item)
     end
   end
-  
+
   private
-  
+
   def build_card(item)
     juros = if(item[:juros].is_a?(Array))
               item[:juros].map { |j| j[:juros] }
@@ -42,15 +42,15 @@ class CreditCardPaymentFactory < SoapBase
                                    :qtd_max_parcelas => item[:quantidade_max_parcelas],
                                    :juros            => juros)
   end
-  
+
   class << self
-    
+
     private
-    
+
     def default_wsdl
       "http://ec2-50-19-145-76.compute-1.amazonaws.com:8080/PagamentoCartao/PagamentoCartao?wsdl"
     end
-    
+
   end
-  
+
 end

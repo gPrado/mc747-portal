@@ -1,10 +1,10 @@
 class BrandProductsController < ApplicationController
-  
+
   layout 'navigation'
-  
+
   def index
     @products = ProductFactory.instance.find_all_by_brand(params[:brand_id].to_i)
-    
+
     if @products.empty?
      flash[:notice] = "Nenhum produto encontrado para a marca selecionada \"#{@title}\""
      redirect_to :back

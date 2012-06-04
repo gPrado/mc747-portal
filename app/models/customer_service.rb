@@ -1,8 +1,8 @@
 # encoding: utf-8
 class CustomerService
-  
+
   attr_accessor :id, :tipo, :descricao, :user_id, :date, :status, :updates
-  
+
   def initialize(params)
     @id        = params[:id]
     @tipo      = params[:tipo]
@@ -22,15 +22,15 @@ class CustomerService
   end
 
   class << self
-    
+
     def available_types
       ["Reclamação", "Sugestão", "Troca", "Dúvida", "Outro"]
     end
-    
+
     def available_status
       ["Aberto", "Fechado", "Em Andamento", "Cancelado"]
     end
-    
+
   end
-  
+
 end

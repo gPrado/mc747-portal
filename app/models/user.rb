@@ -1,5 +1,5 @@
 class User
-  
+
   attr_accessor :cpf, :nome, :data_nascimento, :dat_cCadastro, :rg, :cep,
                 :numero_endereco, :complemento_endereco, :potencial_compra, :email
 

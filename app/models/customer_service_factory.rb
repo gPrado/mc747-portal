@@ -1,6 +1,7 @@
 class CustomerServiceFactory < SoapBase
-  
+
   def create(cs)
+    Rails.logger.debug "#{self.class}#create"
     response = client.request "Abrir_Chamado", :xmlns => "http://tempuri.org/" do
       http.headers['SOAPAction'] = %("http://tempuri.org/IAtendimentoCliente/Abrir_Chamado")
       tns = 'http://schemas.datacontract.org/2004/07/AtendimentoCliente'
@@ -8,7 +9,7 @@ class CustomerServiceFactory < SoapBase
       soap.body = {
         "chamado" => {
           "IdCliente"     => portal_key,
-          "TipoChamado"   => cs.tipo, 
+          "TipoChamado"   => cs.tipo,
           "IdSolicitante" => cs.user_id,
           "Descricao"     => cs.descricao,
           "IdPedido"      => "",
@@ -26,8 +27,9 @@ class CustomerServiceFactory < SoapBase
       }
     end
   end
-  
+
   def find(id)
+    Rails.logger.debug "#{self.class}#find"
     response = client.request "Consultar_Chamado", :xmlns => "http://tempuri.org/" do
       http.headers['SOAPAction'] = %("http://tempuri.org/IAtendimentoCliente/Consultar_Chamado")
 
@@ -39,8 +41,9 @@ class CustomerServiceFactory < SoapBase
     item = response[:consultar_chamado_response][:consultar_chamado_result]
     build_new_customer_service(item)
   end
-  
+
   def find_all_by_user_id(user_id)
+    Rails.logger.debug "#{self.class}#find_all_by_user_id"
     response = client.request "Consultar_Chamados_Por_Usuario", :xmlns => "http://tempuri.org/" do
       http.headers['SOAPAction'] = %("http://tempuri.org/IAtendimentoCliente/Consultar_Chamados_Por_Usuario")
 
@@ -53,8 +56,9 @@ class CustomerServiceFactory < SoapBase
     array = (items.is_a?(Array) ? items : [items]).compact
     array.map { |item| build_new_customer_service(item) }
   end
-  
+
   def update(cs)
+    Rails.logger.debug "#{self.class}#update"
     response = client.request "Alterar_Chamado", :xmlns => "http://tempuri.org/" do
       http.headers['SOAPAction'] = %("http://tempuri.org/IAtendimentoCliente/Alterar_Chamado")
       tns = 'http://schemas.datacontract.org/2004/07/AtendimentoCliente'
@@ -77,15 +81,16 @@ class CustomerServiceFactory < SoapBase
       }
     end
   end
-  
+
   def get_client
+    Rails.logger.debug "#{self.class}#get_client"
     response = client.request "GetCliente", :xmlns => "http://tempuri.org/" do
       http.headers['SOAPAction'] = %("http://tempuri.org/IAtendimentoCliente/GetCliente")
     end
   end
-  
+
   private
-  
+
   def build_new_customer_service(item)
     alt = item[:alteracoes]
     array = if alt
@@ -101,19 +106,19 @@ class CustomerServiceFactory < SoapBase
                         :status    => item[:status].to_i,
                         :updates   => alteracoes)
   end
-  
+
   def portal_key
     PortalCustomerServiceInfo.instance.key
   end
-  
+
   class << self
-    
+
     private
-    
+
     def default_wsdl
       "http://mc747atendimento.no-ip.org:2121/AtendimentoCliente.AtendimentoCliente.svc?wsdl"
     end
-    
+
   end
-  
+
 end

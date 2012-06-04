@@ -8,13 +8,13 @@
       .value
         = text_field_tag :nome, @purchase.cc_nome
       %br
-      
+
       .field
         Bandeira:
       .value
         = select_tag :bandeira, options_for_select(CreditCard.available_bandeiras, @purchase.cc_bandeira)
       %br
-      
+
       .format
         (formato: mm/aa)
       .field
@@ -22,7 +22,7 @@
       .value
         = text_field_tag :validade, @purchase.cc_validade
       %br
-      
+
       .format
         (formato: XXXX.XXXX.XXXX.XXXX)
       .field
@@ -30,11 +30,11 @@
       .value
         = text_field_tag :numero, @purchase.cc_numero
       %br
-      
+
       .field
         Código de segurança:
       .value
         = text_field_tag :codigo, @purchase.cc_codigo
-      
+
       .button
-        = button_tag "Ir para número de parcelas", :disable_with => "Espere..." 
+        = button_tag "Ir para número de parcelas", :disable_with => "Espere..."

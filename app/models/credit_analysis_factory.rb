@@ -1,5 +1,5 @@
 class CreditAnalysisFactory < SoapBase
-  
+
   def client_status(cpf)
     Rails.logger.debug "#{self.class}#client_status"
     response = client.request :consulta_cpf do
@@ -19,15 +19,15 @@ class CreditAnalysisFactory < SoapBase
     end
     CreditAnalysis.new(:situation => situation)
   end
-  
+
   class << self
-    
+
     private
-    
+
     def default_wsdl
-      "http://mc747grupo04.heliohost.org/ProtecaoAoCredito.asmx?WSDL"
+      "http://mc747042.heliohost.org/ProtecaoAoCredito.asmx?wsdl"
     end
-    
+
   end
-  
+
 end

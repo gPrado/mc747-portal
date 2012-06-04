@@ -33,11 +33,11 @@ Portal::Application.routes.draw do
       delete :delete_product
     end
   end
-  
+
   resource :login, :only => [:new, :create, :destroy]
-  
+
   resources :customer_services, :only => [:new, :create, :edit, :update, :show, :index]
-  
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

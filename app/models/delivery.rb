@@ -1,7 +1,7 @@
 # encoding: utf-8
 class Delivery
   attr_accessor :cod_rastr, :modo_entrega, :purchase
-  
+
   def initialize(params)
     @purchase     = params[:purchase]
     @modo_entrega = params[:modo_entrega]
@@ -37,21 +37,21 @@ class Delivery
   end
 
   class << self
-    
+
     def human_modo_entregas
       [ "Transporte Aéreo",
         "Transporte Rodoviário",
         "Transp. Rodoviário Prioritário"]
     end
-    
+
     def human_statuses
       [ "Em processamento",
         "Em trânsito",
         "Atrasado",
         "Entregue",
-        "Cancelado"]    
+        "Cancelado"]
     end
-    
+
   end
 
 end

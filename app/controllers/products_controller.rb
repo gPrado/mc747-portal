@@ -1,8 +1,8 @@
 # encoding: utf-8
 class ProductsController < ApplicationController
-  
+
   layout 'navigation'
-  
+
   def show
     @categories = CategoryFactory.instance.all
     @title = "Nome da Marca"
@@ -16,7 +16,7 @@ class ProductsController < ApplicationController
     @query = params[:q]
     if @query && !@query.empty?
       @products = ProductFactory.instance.search(@query)
-    
+
       if @products.empty?
        flash[:notice] = "Nenhum produto encontrado para a busca por \"#{@query}\""
        redirect_to :root

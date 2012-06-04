@@ -1,5 +1,5 @@
 class Product
-  
+
   attr_accessor :id, :nome, :categoria_id, :categoria_nome, :marca_id, :marca_nome,
                 :especificacao, :peso, :comprimento, :largura, :altura
 
@@ -20,7 +20,7 @@ class Product
   def price
     @price ||= product_info.price
   end
-  
+
   def quantity
     product_info.quantity
   end
@@ -42,7 +42,7 @@ class Product
   end
 
   private
-  
+
   def product_info
     @product_info ||= ProductInfoFactory.instance.find id
   end
@@ -52,15 +52,15 @@ class Product
   end
 
   class ProductImage
-    
+
     attr_accessor :url, :url_small, :descricao
-    
+
     def initialize(params)
       @url       = params[:url]
       @url_small = params[:url_small]
       @descricao = params[:descricao]
     end
-    
+
   end
 
 end

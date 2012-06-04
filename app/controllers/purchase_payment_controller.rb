@@ -1,11 +1,11 @@
 class PurchasePaymentController < ApplicationController
-  
+
   before_filter :authenticate_user!
-  
+
   def edit
     @purchase = Purchase.find(params[:purchase_id])
   end
-  
+
   def update
     @purchase = Purchase.find(params[:purchase_id])
     @purchase.update_payment_type(params[:payment_type])
@@ -15,21 +15,21 @@ class PurchasePaymentController < ApplicationController
       redirect_to purchase_payment_path(@purchase)
     end
   end
-    
+
   def edit_cc
     @purchase = Purchase.find(params[:purchase_id])
   end
-  
+
   def update_cc
     @purchase = Purchase.find(params[:purchase_id])
     @purchase.update_cc(CreditCard.new(params))
     redirect_to edit_payment_count_purchase_payment_path(@purchase)
   end
-  
+
   def edit_payment_count
     @purchase = Purchase.find(params[:purchase_id])
   end
-  
+
   def update_payment_count
     @purchase = Purchase.find(params[:purchase_id])
     begin
@@ -39,9 +39,9 @@ class PurchasePaymentController < ApplicationController
     end
     redirect_to edit_payment_count_purchase_payment_path(@purchase)
   end
-  
+
   def show
     @purchase = Purchase.find(params[:purchase_id])
   end
-  
+
 end

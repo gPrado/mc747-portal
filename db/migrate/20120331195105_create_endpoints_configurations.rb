@@ -5,7 +5,7 @@ class CreateEndpointsConfigurations < ActiveRecord::Migration
     end
     EndpointsConfiguration.init
   end
-  
+
   def down
     drop_table :endpoints_configurations
   end

@@ -46,7 +46,7 @@ class Purchase < ActiveRecord::Base
   def products_price
     products.reduce(0) do |memo, product|
       memo + product.price
-    end    
+    end
   end
 
   def products_price_juros

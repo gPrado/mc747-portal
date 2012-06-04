@@ -1,7 +1,7 @@
 .purchase-address
   .title
     Endereço de entrega
-  
+
   .address-form
     = form_tag purchase_address_path(@purchase), :method => :put do
       .field
@@ -10,43 +10,43 @@
         = text_field_tag :cep, @address.cep
         = button_tag "Buscar por CEP", :value => :cep_address, :disable_with => "Espere..."
       %br
-      
+
       .field
         Rua*
       .value
         = text_field_tag :logradouro, @address.logradouro
       %br
-      
+
       .field
         Numero*
       .value
         = text_field_tag :numero, @address.numero
       %br
-      
+
       .field
         Complemento
       .value
         = text_field_tag :complemento, @address.complemento
       %br
-      
+
       .field
         Bairro*
       .value
         = text_field_tag :bairro, @address.bairro
       %br
-      
+
       .field
         Localidade*
       .value
         = text_field_tag :localidade, @address.localidade
       %br
-      
+
       .field
         UF*
       .value
         = text_field_tag :uf, @address.uf
       %br
-      
+
       .buttons
         =button_tag "Buscar pelos campos", :value => :search_address, :disable_with => "Espere..."
         =button_tag "Ir para modo de entrega", :value => :verify_address, :disable_with => "Espere..."

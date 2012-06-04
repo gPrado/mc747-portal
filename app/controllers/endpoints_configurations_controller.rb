@@ -2,7 +2,7 @@ class EndpointsConfigurationsController < ApplicationController
   def edit
     @configuration = EndpointsConfiguration.conf
   end
-  
+
   def update
     EndpointsConfiguration.conf = params[:endpoints_configuration]
     flash[:notice] = "Update Successful"

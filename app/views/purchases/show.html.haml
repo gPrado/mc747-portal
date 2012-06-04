@@ -2,7 +2,7 @@
   .summary
     .title
       Resumo do pedido
-  
+
     - if @purchase.completed
       .date
         .field
@@ -14,7 +14,7 @@
     .items
       = render :partial => 'purchases/purchase_product', :collection => @purchase.products, :spacer_template => 'layouts/separator'
     .separator
-    
+
     .subtotal
       .field
         Valor total dos produtos:
@@ -57,7 +57,7 @@
         Tempo estimado:
       .value
         = pluralize(@purchase.estimated_time, 'dia útil')
-        = @purchase.completed ? "a partir da data da compra" : "" 
+        = @purchase.completed ? "a partir da data da compra" : ""
     - unless @purchase.completed
       .button
         = form_tag edit_purchase_delivery_path(@purchase), :method => :get do

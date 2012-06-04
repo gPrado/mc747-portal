@@ -1,9 +1,9 @@
 # encoding: utf-8
 class Payment
-  
+
   attr_accessor :cc_numero, :cc_nome, :cc_validade, :cc_codigo, :cc_bandeira,
                 :payment_count, :payment_type, :payment_id, :payment_price
-  
+
   def initialize(params)
     @payment_price = params[:payment_price]
     @payment_count = params[:payment_count]
@@ -15,7 +15,7 @@ class Payment
     @cc_codigo     = params[:cc_codigo]
     @cc_bandeira   = params[:cc_bandeira]
   end
-  
+
   def submit
     if payment_type.to_s == "credit_card"
       payment = CreditCardPaymentFactory.instance.make_payment(credit_card, payment_price, payment_count)
@@ -28,12 +28,12 @@ class Payment
       payment_id = bank_payment.make_payment(payment_price)
     end
   end
-  
+
   def bank_payment
     BankPayment.new(:payment_id   => payment_id,
                     :payment_type => payment_type)
   end
-  
+
   def credit_card
     CreditCard.new(:numero   => cc_numero,
                    :nome     => cc_nome,
@@ -41,11 +41,11 @@ class Payment
                    :codigo   => cc_codigo,
                    :bandeira => cc_bandeira)
   end
-  
+
   def human_payment_type
     self.class.human_payment_type payment_type
   end
-  
+
   class << self
 
     def human_payment_type(payment_type)
@@ -62,7 +62,7 @@ class Payment
         raise "Unknown payment type"
       end
     end
-    
+
     def payment_types
       ["boleto" ,"transferencia", "deposito", "credit_card"].map do |type|
         [human_payment_type(type), type]

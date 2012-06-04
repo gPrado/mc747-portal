@@ -7,7 +7,6 @@
     = hidden_field_tag :logradouro, address.logradouro
     = hidden_field_tag :localidade, address.localidade
     = hidden_field_tag :bairro, address.bairro
-    = hidden_field_tag :uf, address.uf    
+    = hidden_field_tag :uf, address.uf
     .submit
       = button_tag('Escolher', :value => :verify_address, :disable_with => 'Espere...')
-  
