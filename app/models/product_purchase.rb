@@ -4,7 +4,7 @@ class ProductPurchase < ActiveRecord::Base
   attr_accessible :purchase_id, :product_id, :product_amount,
                   :product_price
 
-  delegate :nome, :to => :product
+  delegate :nome, :quantity, :to => :product
 
   def product
     @product ||= ProductFactory.instance.find(product_id)
@@ -32,7 +32,7 @@ class ProductPurchase < ActiveRecord::Base
 
   def sub_stock
     if !ProductInfoFactory.instance.sub(product_id, product_amount)
-      raise "Quantidade do produto não disponível em estoque"
+      raise "Quantidade do produto \"#{nome}\" não disponível em estoque - #{quantity} unidades disponíveis"
     end
   end
 

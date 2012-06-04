@@ -7,7 +7,7 @@
       = select_tag :payment_count, options_for_select(@purchase.credit_card.available_payment_count(@current_user.potencial_compra), @purchase.payment_count)
       = button_tag "Atualizar", :disable_with => "Espere..."
 
-      - price = @purchase.products_price_juros
+      - price = @purchase.price
       .payment-price
         Valor da parcela:
         = format_price(price / @purchase.payment_count)
