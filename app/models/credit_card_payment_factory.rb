@@ -2,10 +2,11 @@
 class CreditCardPaymentFactory < SoapBase
 
   def make_payment(credit_card, price, payment_count)
+    price *= 100 #convert to centavos
     Rails.logger.debug "#{self.class}#make_payment"
     response = client.request :valida_compra, :valida_compra do
       soap.body = {
-        "ValorDaCompra"        => price,
+        "ValorDaCompra"        => price.ceil,
         "NomeDoTitular"        => credit_card.nome,
         "BandeiraDoCartao"     => credit_card.bandeira,
         "NumeroDoCartao"       => credit_card.numero,
@@ -28,6 +29,11 @@ class CreditCardPaymentFactory < SoapBase
     response[:lista_cartoes_response][:return].map do |item|
       build_card(item)
     end
+  end
+
+  def reset
+    Rails.logger.debug "#{self.class}#reset"
+    client.request :reset, :reset
   end
 
   private

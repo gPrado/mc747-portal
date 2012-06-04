@@ -1,3 +1,4 @@
+# encoding: utf-8
 class ProductPurchase < ActiveRecord::Base
 
   attr_accessible :purchase_id, :product_id, :product_amount,
