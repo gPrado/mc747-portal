@@ -1,0 +1,19 @@
+.purchase-payment
+  .title
+    Dados da conta
+  .cc-payment
+    = form_tag update_bank_purchase_payment_path(@purchase), :method => :put do
+      .field
+        Agência:
+      .value
+        = text_field_tag :agency, @purchase.agency
+      %br
+
+      .field
+        Conta:
+      .value
+        = text_field_tag :account, @purchase.account
+      %br
+
+      .button
+        = button_tag "Revisar compra", :disable_with => "Espere..."

@@ -4,7 +4,8 @@ class Purchase < ActiveRecord::Base
                   :cep, :logradouro, :bairro, :localidade, :uf, :complemento, :numero,
                   :modo_entrega, :shipping, :estimated_time, :price,
                   :payment_count, :payment_type, :payment_id,
-                  :cc_numero, :cc_nome, :cc_validade, :cc_codigo, :cc_bandeira
+                  :cc_numero, :cc_nome, :cc_validade, :cc_codigo, :cc_bandeira,
+                  :agency, :account
 
   def user
     @user ||= User.find(user_id)
@@ -88,6 +89,11 @@ class Purchase < ActiveRecord::Base
                        :cc_validade => cc.validade)
   end
 
+  def update_bank(agency, account)
+    update_attributes!(:agency   => agency,
+                       :account  => account)
+  end
+
   def update_payment_type(payment_type)
     update_attributes!(:payment_type => payment_type)
   end
@@ -133,7 +139,9 @@ class Purchase < ActiveRecord::Base
                 :cc_nome       => cc_nome,
                 :cc_validade   => cc_validade,
                 :cc_codigo     => cc_codigo,
-                :cc_bandeira   => cc_bandeira)
+                :cc_bandeira   => cc_bandeira,
+                :agency        => agency,
+                :account       => account)
   end
 
   def credit_card
@@ -176,7 +184,11 @@ class Purchase < ActiveRecord::Base
       update_attribute :cod_rastr, cod_rastr
       update_attribute :payment_id, payment_id
 
-      delivery.allow_delivery if payment_type.to_s == "credit_card"
+      if payment_type.to_s == "credit_card"
+        delivery.allow_delivery
+      else
+        delivery.allow_delivery if payment.commit?
+      end
     end
     true
   end

@@ -1,17 +1,16 @@
 # encoding: utf-8
 class BankPayment
 
-  attr_accessor :payment_id, :payment_type
+  attr_accessor :payment_id, :payment_type, :agency, :account
 
   def initialize(params)
     @payment_id   = params[:payment_id]
     @payment_type = params[:payment_type]
+    @agency   = params[:agency]
+    @account = params[:account]
   end
 
   def make_payment(price)
-    account = portal_account_info.account
-    agency = portal_account_info.agency
-
     payment_id = case payment_type.to_s
     when "boleto"
       BankPaymentFactory.instance.boleto(account, agency, price)
@@ -22,10 +21,19 @@ class BankPayment
     else
       raise "Unknown payment type"
     end
+
+    if payment_id.to_i < 0
+      raise "Agência/Conta inválidas"
+    end
+    payment_id
   end
 
   def status
     self.class.human_statuses[BankPaymentFactory.instance.status(payment_id)]
+  end
+
+  def commit?
+    status == "Efetuado"
   end
 
   private

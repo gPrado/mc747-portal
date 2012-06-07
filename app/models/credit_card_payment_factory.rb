@@ -33,7 +33,11 @@ class CreditCardPaymentFactory < SoapBase
 
   def reset
     Rails.logger.debug "#{self.class}#reset"
-    client.request :reset, :reset
+    client.request :reset, :reset do
+      soap.body = {
+        "grupo" => 9
+      }
+    end
   end
 
   private

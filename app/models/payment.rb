@@ -2,7 +2,8 @@
 class Payment
 
   attr_accessor :cc_numero, :cc_nome, :cc_validade, :cc_codigo, :cc_bandeira,
-                :payment_count, :payment_type, :payment_id, :payment_price
+                :payment_count, :payment_type, :payment_id, :payment_price,
+                :agency, :account
 
   def initialize(params)
     @payment_price = params[:payment_price]
@@ -14,6 +15,12 @@ class Payment
     @cc_validade   = params[:cc_validade]
     @cc_codigo     = params[:cc_codigo]
     @cc_bandeira   = params[:cc_bandeira]
+    @agency   = params[:agency]
+    @account   = params[:account]
+  end
+
+  def commit?
+    payment_type.to_s == "credit_card" || bank_payment.commit?
   end
 
   def submit
@@ -31,7 +38,9 @@ class Payment
 
   def bank_payment
     BankPayment.new(:payment_id   => payment_id,
-                    :payment_type => payment_type)
+                    :payment_type => payment_type,
+                    :agency       => agency,
+                    :account      => account)
   end
 
   def credit_card

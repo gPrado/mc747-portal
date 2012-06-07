@@ -22,6 +22,8 @@ Portal::Application.routes.draw do
       collection do
         get :edit_cc
         put :update_cc
+        get :edit_bank
+        put :update_bank
         get :edit_payment_count
         put :update_payment_count
       end

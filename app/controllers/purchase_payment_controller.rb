@@ -12,7 +12,7 @@ class PurchasePaymentController < ApplicationController
     if params[:payment_type] == "credit_card"
       redirect_to edit_cc_purchase_payment_path(@purchase)
     else
-      redirect_to purchase_payment_path(@purchase)
+      redirect_to edit_bank_purchase_payment_path(@purchase)
     end
   end
 
@@ -24,6 +24,16 @@ class PurchasePaymentController < ApplicationController
     @purchase = Purchase.find(params[:purchase_id])
     @purchase.update_cc(CreditCard.new(params))
     redirect_to edit_payment_count_purchase_payment_path(@purchase)
+  end
+
+  def edit_bank
+    @purchase = Purchase.find(params[:purchase_id])
+  end
+
+  def update_bank
+    @purchase = Purchase.find(params[:purchase_id])
+    @purchase.update_bank(params[:agency], params[:account])
+    redirect_to purchase_path(@purchase)
   end
 
   def edit_payment_count
